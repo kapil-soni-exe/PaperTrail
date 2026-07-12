@@ -12,8 +12,10 @@ export async function POST() {
   // Clear the cookie by setting maxAge to 0
   response.cookies.set("token", "", {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 0
+    maxAge: 0,
+    path: "/",
   });
 
   return response;
