@@ -1,0 +1,172 @@
+:root {
+  /* Base */
+  --auth-bg-void: #080810;
+  --auth-bg-surface: #0d0d1a;
+
+  /* Aurora accent */
+  --auth-accent-violet: 124 111 255;
+  --auth-accent-blue: 56 189 248;
+
+  /* Grid */
+  --auth-grid-opacity: 1;
+
+  /* Noise */
+  --auth-noise-opacity: 0.04;
+
+  /* Radial aurora sizes */
+  --auth-aurora-violet-size: 70vmax;
+  --auth-aurora-blue-size: 55vmax;
+}
+
+.auth-bg-root {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh; /* dynamic viewport height — handles mobile chrome */
+  overflow: hidden;
+  background-color: var(--auth-bg-void);
+  isolation: isolate; /* create new stacking context */
+}
+
+.auth-bg-aurora-violet,
+.auth-bg-aurora-blue,
+.auth-bg-grid,
+.auth-bg-noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+.auth-bg-aurora-violet {
+  background: radial-gradient(
+    ellipse var(--auth-aurora-violet-size)
+      calc(var(--auth-aurora-violet-size) * 0.75) at 28% 18%,
+    rgba(var(--auth-accent-violet) / 0.12) 0%,
+    rgba(var(--auth-accent-violet) / 0.06) 35%,
+    rgba(var(--auth-accent-violet) / 0.02) 65%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+.auth-bg-aurora-blue {
+  background: radial-gradient(
+    ellipse var(--auth-aurora-blue-size)
+      calc(var(--auth-aurora-blue-size) * 0.6) at 78% 82%,
+    rgba(var(--auth-accent-blue) / 0.07) 0%,
+    rgba(var(--auth-accent-blue) / 0.03) 45%,
+    transparent 100%
+  );
+  z-index: 2;
+}
+
+.auth-bg-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='1' cy='1' r='1' fill='rgba(255%2C255%2C255%2C0.025)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 18px 18px;
+
+  /* Vignette mask: grid fades toward center/right so it doesn't
+     compete with the auth card area. */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black 0%,
+    black 40%,
+    transparent 72%
+  );
+  mask-image: linear-gradient(to right, black 0%, black 40%, transparent 72%);
+
+  z-index: 3;
+}
+
+/* On tablet and below, let the grid show edge-to-edge (full bleed)
+   but keep it subtle — no hard cutoff on small screens. */
+@media (max-width: 1023px) {
+  .auth-bg-grid {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 60%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 60%,
+      transparent 100%
+    );
+  }
+}
+
+/* On mobile, reduce grid pitch slightly for denser feel on small canvas */
+@media (max-width: 639px) {
+  .auth-bg-grid {
+    background-size: 16px 16px;
+  }
+}
+
+.auth-bg-noise {
+  /* Hide the inline SVG — it only defines the filter reference.
+     The actual noise comes from the ::after pseudo-element. */
+  & > svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  z-index: 4;
+}
+
+.auth-bg-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+
+  opacity: var(--auth-noise-opacity); /* 0.04 = 4% */
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.auth-bg-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  min-height: 100dvh;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --auth-aurora-violet-size: 90vmax;
+    --auth-aurora-blue-size: 60vmax;
+  }
+
+  /* Reduce noise opacity on mobile — subtle is better on OLED screens */
+  .auth-bg-noise::after {
+    opacity: 0.03;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-bg-aurora-violet,
+  .auth-bg-aurora-blue {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+@media print {
+  .auth-bg-aurora-violet,
+  .auth-bg-aurora-blue,
+  .auth-bg-grid,
+  .auth-bg-noise {
+    display: none;
+  }
+
+  .auth-bg-root {
+    background-color: #ffffff;
+  }
+}
