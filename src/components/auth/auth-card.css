@@ -1,0 +1,128 @@
+:root {
+  --card-width: 440px;
+  --card-padding: 40px;
+  --card-radius: 20px;
+
+  /* Surface */
+  --card-bg: rgba(13, 13, 26, 0.7);
+  --card-blur: blur(24px) saturate(180%);
+
+  /* Border */
+  --card-border-color: rgba(255, 255, 255, 0.08);
+
+  /* Shadow layers */
+  --card-shadow-rim: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  --card-shadow-depth: 0 40px 80px rgba(0, 0, 0, 0.5);
+  --card-shadow-glow: 0 0 60px rgba(124, 111, 255, 0.06);
+
+  --card-gap-sm: 16px;
+  --card-gap-md: 20px;
+  --card-gap-lg: 24px;
+  --card-gap-xl: 28px;
+  --card-gap-2xl: 32px;
+}
+
+/* ─── Card root */
+.auth-card {
+  /* Dimensions */
+  width: var(--card-width);
+  padding: var(--card-padding);
+  box-sizing: border-box;
+
+  /* Surface */
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  -webkit-backdrop-filter: var(--card-blur);
+
+  /* Border */
+  border: 1px solid var(--card-border-color);
+  border-radius: var(--card-radius);
+
+  /* Three-layer shadow — order matters: inset first, then outer layers */
+  box-shadow:
+    var(--card-shadow-rim), var(--card-shadow-depth), var(--card-shadow-glow);
+
+  /* Establish stacking context so blur clips cleanly */
+  isolation: isolate;
+  position: relative;
+}
+
+.auth-card-header {
+  display: flex;
+  flex-direction: colum;
+}
+
+/* ─── Section sub-component  */
+.auth-card-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Gap modifiers — top margin separating this section from the one above */
+.auth-card-gap-sm {
+  margin-top: var(--card-gap-sm);
+}
+.auth-card-gap-md {
+  margin-top: var(--card-gap-md);
+}
+.auth-card-gap-lg {
+  margin-top: var(--card-gap-lg);
+}
+.auth-card-gap-xl {
+  margin-top: var(--card-gap-xl);
+}
+.auth-card-gap-2xl {
+  margin-top: var(--card-gap-2xl);
+}
+
+.auth-card-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--card-gap-md); /* 20px */
+}
+
+@media (max-width: 1199px) {
+  .auth-card {
+    width: 420px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .auth-card {
+    width: min(420px, 100%);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .auth-card {
+    width: calc(100% - 32px);
+    margin: 0 auto;
+
+    border-radius: 16px;
+
+    padding: 24px;
+
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(13, 13, 26, 0.96);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-card {
+    transition: none !important;
+  }
+}
+
+@media print {
+  .auth-card {
+    background: #ffffff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    border: 1px solid #e4e4e7;
+  }
+}
