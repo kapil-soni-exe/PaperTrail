@@ -1,26 +1,155 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #080810;
+  --foreground: #f4f4f5;
+  --border: #27272a;
+  
+  /* Vibrant Accents */
+  --accent: #8b5cf6;
+  --accent-muted: #5b21b6;
+  --accent-glow: rgba(139, 92, 246, 0.5);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --card: rgba(13, 13, 18, 0.6);
+  --card-border: rgba(255, 255, 255, 0.05);
+  --card-hover: rgba(255, 255, 255, 0.08);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+  background: var(--card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
+/* Custom transparent scrollbar for sidebar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 4px;
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Resume Builder — shared field style */
+.resume-field {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.88);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  line-height: 1.5;
+}
+.resume-field::placeholder { color: rgba(255,255,255,0.22); }
+.resume-field:focus {
+  border-color: rgba(99,102,241,0.5);
+  background: rgba(99,102,241,0.04);
+}
+.resume-field:focus-within {
+  border-color: rgba(99,102,241,0.5);
+  background: rgba(99,102,241,0.04);
+}
+.resume-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 5px;
+}
+
+/* Print optimizations for Resume PDF */
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  body, html {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+  
+  /* Hide the rest of the application layout */
+  .print\:hidden {
+    display: none !important;
+  }
+  .print\:\!hidden {
+    display: none !important;
+  }
+  
+  /* Override parent containers to let the canvas take full page */
+  body > div {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  aside, nav, header {
+    display: none !important;
+  }
+  
+  /* Reset canvas scale for printing */
+  .print-canvas-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .print-canvas-inner {
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    box-shadow: none !important;
+    position: static !important;
+  }
 }
