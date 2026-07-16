@@ -1,0 +1,134 @@
+.lf-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.lf-oauth-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.lf-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px; /* §08: 24px above divider */
+}
+
+.lf-divider-line {
+  flex: 1;
+  height: 1px;
+  /* Gradient fade matches §11: "transparent → colour → transparent" */
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+}
+
+.lf-divider-text {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(240, 240, 255, 0.3);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* ─── Email + Password form ─────────────────────────────────────────────── */
+
+.lf-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* gaps are applied individually below */
+  margin-top: 24px; /* §08: 24px below divider */
+  width: 100%;
+}
+
+/* Password group — wraps the Input + "Forgot password?" link */
+.lf-password-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px; /* §08: 16px between email and password */
+}
+
+/* "Forgot password?" link — §08: 12px, right-aligned, below password input */
+.lf-forgot {
+  align-self: flex-end;
+  margin-top: 6px;
+
+  /* Reset button */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(240, 240, 255, 0.45);
+  transition: color 140ms ease;
+}
+
+.lf-forgot:hover {
+  color: rgba(240, 240, 255, 0.8);
+}
+
+.lf-forgot:focus-visible {
+  outline: 2px solid rgba(124, 111, 255, 0.6);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* CTA — §08: 28px below password group */
+.lf-cta {
+  margin-top: 28px; /* §08: 28px above CTA */
+}
+
+/* ─── Footer link — §08: 20px below CTA ────────────────────────────────── */
+
+.lf-footer {
+  margin: 0;
+  margin-top: 20px; /* §08: 20px below CTA */
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(240, 240, 255, 0.4);
+}
+
+.lf-footer-link {
+  /* Reset button */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(124, 111, 255, 0.9);
+  transition: color 140ms ease;
+}
+
+.lf-footer-link:hover {
+  color: rgba(124, 111, 255, 1);
+}
+
+.lf-footer-link:focus-visible {
+  outline: 2px solid rgba(124, 111, 255, 0.6);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ─── Accessibility: reduced motion ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-forgot,
+  .lf-footer-link {
+    transition: none !important;
+  }
+}
